@@ -25,8 +25,9 @@ export class AccountService {
     );
   }
 
-  register(model: any){
-    return this.http.post(this.baseUrl + 'account/register', model).pipe(
+  register(model: any, student: boolean){
+    let uri = student ? 'auth/student/register' : 'auth/staff/register';
+    return this.http.post(this.baseUrl + uri, model).pipe(
       map((user: User) => {
         if (user) {
           this.setCurrentUser(user);

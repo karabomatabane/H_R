@@ -1,22 +1,20 @@
-<div style="width: auto;">
-    <table class="table">
+<div>
+    <table class="table table-hover"  id="list">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Residences</th>
-                <th>Status</th>
-                <th>Comment</th>
+                <th scope="col">Id</th>
+                <th scope="col">Residences</th>
+                <th scope="col">Status</th>
+                <th scope="col">Comment</th>
+                <th scope="col">Submission Date</th>
               </tr>
         </thead>
-        <tr class="table-active">
-          <td>Alfreds Futterkiste</td>
-          <td>Maria Anders</td>
-          <td>Germany</td>
-        </tr>
-        <tr>
-          <td>Centro comercial Moctezuma</td>
-          <td>Francisco Chang</td>
-          <td>Mexico</td>
+        <tr class="table table-row" *ngFor="let app of applications; let i = index">
+          <td>0{{ i }}</td>
+          <td>{{ concatReses(app.residence1, app.residence2, app.residence3) }}</td>
+          <td>{{ app.status }}</td>
+          <td>{{ app.comment }}</td>
+          <td>{{ app.createdAt | date }}</td>
         </tr>
       </table> 
     <button class="btn btn-primary" (click)="onNew()">New Application</button>

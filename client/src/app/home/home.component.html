@@ -1,1 +1,18 @@
-<p>home works!</p>
+<div *ngIf="!registerMode" class="containter mt-5">
+    <div style="text-align: center;">
+        <h1>H & R | HOUSING & RESIDENCE </h1>
+        <h4>Apply!</h4>
+        <div class="text-center">
+            <button (click)="registerToggle()" class="btn btn-primary btn-lg" style="margin-right: .5rem;">Register</button>
+            <button class="btn btn-info btn-lg">Learn more</button>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="registerMode" class="container">
+    <div class="row justify-content-center">
+        <div class="col-4">
+            <app-register (cancelRegister)="cancelRegisterMode($event)"></app-register>
+        </div>
+    </div>
+</div>

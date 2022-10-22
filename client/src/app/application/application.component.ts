@@ -1,8 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AccountService } from '../account.service';
 import { ApplicationService } from '../application.service';
 import { Application } from '../_models/application';
+import { Observable, take } from 'rxjs';
+import { User } from '../_models/user';
 
 @Component({
   selector: 'app-application',
@@ -11,11 +14,21 @@ import { Application } from '../_models/application';
 })
 export class ApplicationComponent implements OnInit {
   FormData: FormGroup;
+  applications: Application[];
   newApp: boolean = false;
+  filter: boolean = false;
 
   constructor (private builder: FormBuilder, private appService: ApplicationService) { }
 
   ngOnInit() {
+    this.loadApps();
+  }
+
+  get formControls() {
+    return this.FormData.controls;
+  }
+
+  onNew() {
     this.FormData = this.builder.group({
       studentNo: new FormControl('', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]),
       firstName: new FormControl('', [Validators.required]),
@@ -28,13 +41,6 @@ export class ApplicationComponent implements OnInit {
       status: new FormControl('true'),
       semester: new FormControl('true', [Validators.required]),
     });
-  }
-
-  get formControls() {
-    return this.FormData.controls;
-  }
-
-  onNew() {
     this.newApp = !this.newApp;
   }
 
@@ -44,5 +50,27 @@ export class ApplicationComponent implements OnInit {
     }, error => {
       console.error(error);
     })
+  }
+
+  loadApps() {
+    this.appService.getActiveApps(this.filter).subscribe(response => {
+        this.applications = response;
+      }, error => {
+        console.error(error);
+      });
+  };
+
+  concatReses(res1: String, res2: String, res3: String) {
+    console.log('res1', res1, 'res2', res2, 'res3', res3);
+    if (res2 !== undefined && res3 !== undefined) {
+      return res1.concat(', ', res2.toString(), ', ' , res3.toString());
+    } else if (res2 !== undefined) {
+      return res1.concat(', ', res2.toString());
+    } else if (res3 !== undefined) {
+      return res1.concat(', ', res3.toString());
+    } else {
+      return res1.toString();
+    }
+    
   }
 }

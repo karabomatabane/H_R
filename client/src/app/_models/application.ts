@@ -9,5 +9,7 @@ export interface Application {
     residence3: String,
     semester: Boolean,
     status: String,
+    comment: String,
+    createdAt: Date,
     isActive: Boolean
   }

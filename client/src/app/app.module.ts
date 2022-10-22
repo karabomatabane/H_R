@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms'
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -10,13 +10,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ApplicationComponent } from './application/application.component';
 import { NavComponent } from './nav/nav.component';
 import { HomeComponent } from './home/home.component';
+import { JwtInterceptor } from './jwt.interceptor';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ApplicationComponent,
     NavComponent,
-    HomeComponent
+    HomeComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +30,7 @@ import { HomeComponent } from './home/home.component';
     HttpClientModule,
     ToastrModule.forRoot()
   ],
-  providers: [],
+  providers: [ {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
