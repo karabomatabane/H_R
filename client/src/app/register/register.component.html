@@ -128,6 +128,8 @@
         formControlName="confirmPassword" class="form-control" placeholder="Confirm password">
     </div>
 
+    <span>{{registerForm.value | json}}</span>
+
     <div class="form-group text-center">
         <button [disabled]="!registerForm.valid" class="btn btn-success me-2" type="submit">Register</button>
         <button class="btn btn-default me-2" (click)="cancel()" type="button">Cancel</button>

@@ -19,6 +19,9 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.initialiseForm();
+    document.querySelector('.btn-group').addEventListener('click', () => {
+        this.initialiseForm();
+    })
   }
 
   register() {
@@ -35,8 +38,6 @@ export class RegisterComponent implements OnInit {
 
   initialiseForm() {
     this.registerForm = this.builder.group({
-      studentNo: new FormControl('', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]),
-      staffNo: new FormControl('', [Validators.required, Validators.minLength(10), Validators.maxLength(8)]),
       firstName: new FormControl('', [Validators.required]),
       lastName: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -45,6 +46,13 @@ export class RegisterComponent implements OnInit {
       confirmPassword: new FormControl('', [Validators.required, this.matchValues('password')]),
       gender: new FormControl('F', [Validators.required]),
     });
+    if (!this.student) {
+      this.registerForm.removeControl('studentNo');
+      this.registerForm.setControl('staffNo', new FormControl('', [Validators.required, Validators.minLength(10), Validators.maxLength(8)]));
+    } else {
+      this.registerForm.removeControl('staffNo');
+      this.registerForm.setControl('studentNo', new FormControl('', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]));
+    }
   }
 
   matchValues(matchTo: string): ValidatorFn {
